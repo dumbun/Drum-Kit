@@ -1,79 +1,74 @@
+function handleClick(e) {
+  //? loding the audio
+  const crash = new Audio("sounds/crash.mp3");
+  const kick = new Audio("sounds/kick-bass.mp3");
+  const snare = new Audio("sounds/snare.mp3");
+  const tom1 = new Audio("sounds/tom-1.mp3");
+  const tom2 = new Audio("sounds/tom-2.mp3");
+  const tom3 = new Audio("sounds/tom-3.mp3");
+  const tom4 = new Audio("sounds/tom-4.mp3");
+  //? mapping the keys with audio
+  switch (e) {
+    case "w":
+      crash.play();
+      break;
 
+    case "a":
+      kick.play();
+      break;
 
+    case "s":
+      snare.play();
+      break;
 
-// detecting buttons cliks 
+    case "d":
+      tom1.play();
+      break;
 
+    case "j":
+      tom2.play();
+      break;
 
-for (var i = 0; i < document.querySelectorAll(".drum").length; i++) {
+    case "k":
+      tom3.play();
+      break;
 
-    document.querySelectorAll(".drum")[i].addEventListener("click", function () {
+    case "l":
+      tom4.play();
+      break;
 
-        var buttonsPressed = this.innerHTML;
-        makeSound(buttonsPressed);
-        buttonAnimation(buttonsPressed)
-    })
+    default:
+      null;
+      break;
+  }
 }
 
-
-// detecting keybord clicks
-
-document.addEventListener("keydown", function (event) {
-    makeSound(event.key);
-    buttonAnimation(event.key)
-})
-
-// main Function
-
-
-function makeSound(key) {
-    switch (key) {
-
-        case "w":
-            var tom1 = new Audio("sounds/tom-1.mp3");
-            tom1.play();
-            break;
-
-        case "a":
-            var tom2 = new Audio("sounds/tom-2.mp3");
-            tom2.play();
-            break;
-
-        case "s":
-            var tom3 = new Audio("sounds/tom-3.mp3");
-            tom3.play();
-            break;
-
-        case "d":
-            var tom4 = new Audio("sounds/tom-3.mp3");
-            tom4.play();
-            break;
-
-        case "j":
-            var snare = new Audio("sounds/snare.mp3");
-            snare.play();
-            break;
-
-        case "k":
-            var crash = new Audio("sounds/crash.mp3");
-            crash.play();
-            break;
-
-        case "l":
-            var kick = new Audio("sounds/kick-bass.mp3");
-            kick.play();
-            break;
-
-        default: console.log(buttonsPressed);
-
-    }
-}
-
+//? animations
 function buttonAnimation(whenPressed) {
-    var activeButton = document.querySelector("." + whenPressed);
-    activeButton.classList.add("pressed");
-    setTimeout(function () {
-        activeButton.classList.remove("pressed")
-
-    }, 100);
-
+  var activeButton = document.querySelector("." + whenPressed);
+  const body = document.querySelector("body").classList;
+  var colors = ["red", "blue", "yellow", "pink", "purple", "orange", "white"];
+  const randomColors = colors[Math.floor(Math.random() * 6)];
+  activeButton.classList.add("pressed");
+  body.add(randomColors);
+  setTimeout(function () {
+    activeButton.classList.remove("pressed");
+    body.remove(randomColors);
+  }, 100);
 }
+
+//? mapping the funtion to buttons(mouse)
+const butoms = document.querySelectorAll(".drum");
+for (const e of butoms) {
+  e.addEventListener("click", (e) => {
+    const target = e.target.innerText;
+    handleClick(target);
+    buttonAnimation(target);
+  });
+}
+//? mappind the function to keybord keys
+document.querySelector("body").addEventListener("keydown", (e) => {
+  const target = e.key;
+  buttonAnimation(target);
+  handleClick(target);
+});
